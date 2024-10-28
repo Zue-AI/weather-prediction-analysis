@@ -1,4 +1,8 @@
 requests
 pandas
+numpy
+matplotlib
+seaborn
 beautifulsoup4
-openpyxl
+mysql-connector-python
+scikit-learn

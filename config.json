@@ -1,5 +1,14 @@
 {
-    "location": "Edo",
-    "period": 30,
-    "api_key": "383db92f0e1d4dcca5b161314242710"
+    "location": "Lagos",
+    "period": 7,
+    "api_key": "383db92f0e1d4dcca5b161314242710",
+    "excel": true,
+    "mysql": true,
+    "db_host": "localhost",
+    "db_user": "weather_user",
+    "db_password": "password123",
+    "db_name": "weather_data_db",
+    "training_timeout_minutes": 5
 }
+  
+  
