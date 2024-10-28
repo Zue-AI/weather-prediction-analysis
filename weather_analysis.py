@@ -183,15 +183,27 @@ def train_predictive_model(df):
 model, scaler = train_predictive_model(df)
 
 # Prediction and Evaluation
+def predict_condition(predicted_temp):
+    if predicted_temp > 30:
+        return "Sunny"
+    elif 20 <= predicted_temp <= 30:
+        return "Partly Cloudy"
+    elif 10 <= predicted_temp < 20:
+        return "Cloudy"
+    else:
+        return "Rainy"
+
 def predict_next_day(model, scaler, df):
     next_day = df['day'].iloc[-1] + 1
     next_day_scaled = scaler.transform([[next_day]])
     predicted_temp = model.predict(next_day_scaled)[0]
+    predicted_condition = predict_condition(predicted_temp)
     logging.info("Next day's prediction completed.")
-    return predicted_temp
+    return predicted_temp, predicted_condition
 
-predicted_temp = predict_next_day(model, scaler, df)
+predicted_temp, predicted_condition = predict_next_day(model, scaler, df)
 print(f"Predicted temperature for tomorrow: approx. {predicted_temp:.2f}°C")
+print(f"Predicted condition for tomorrow: {predicted_condition}")
 
 # Model Evaluation
 def evaluate_model(model, X_scaled, y):
