@@ -31,7 +31,8 @@ def run_weather_analysis():
     """Runs the weather_analysis.py script."""
     logging.info("Running weather_analysis.py for data retrieval and storage.")
     try:
-        subprocess.run(["python3", "weather_analysis.py"], check=True)
+        # Use 'python' instead of 'python3' for compatibility on all platforms
+        subprocess.run(["python", "weather_analysis.py"], check=True)
         logging.info("weather_analysis.py completed successfully.")
     except subprocess.CalledProcessError as e:
         logging.error(f"Error in weather_analysis.py: {e}")
@@ -65,7 +66,7 @@ def track_and_improve_model():
 
     # Prediction for next day
     next_day = np.array([[df['day'].iloc[-1] + 1]])
-    next_day_scaled = scaler.transform(next_day)
+    next_day_scaled = scaler.transform(next_day)  # No feature name issues here with transform only
     predicted_temp = best_model.predict(next_day_scaled)[0]
     logging.info(f"Predicted temperature for next day: {predicted_temp:.2f}°C")
 
@@ -81,12 +82,10 @@ def track_and_improve_model():
     }
 
     # Log performance data
+    performance_df = pd.DataFrame([performance])  # Wrap the new row as a DataFrame
     if os.path.exists(performance_log):
-        performance_df = pd.read_csv(performance_log)
-    else:
-        performance_df = pd.DataFrame(columns=performance.keys())
-    
-    performance_df = performance_df.append(performance, ignore_index=True)
+        previous_df = pd.read_csv(performance_log)
+        performance_df = pd.concat([previous_df, performance_df], ignore_index=True)
     performance_df.to_csv(performance_log, index=False)
     logging.info(f"Model performance logged with MSE: {mse:.2f} and MAE: {mae:.2f}")
 
